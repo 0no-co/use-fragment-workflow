@@ -53,7 +53,12 @@ function get(source: any, key: string): any {
     index = 0;
 
   while (source && path.length > index) {
-    source = source[path[index++]];
+    if (Array.isArray(source)) {
+      source = source.map(s => s[path[index]]);
+      index++;
+    } else {
+      source = source[path[index++]];
+    }
   }
 
   return source;
@@ -75,14 +80,20 @@ function consolidateShapeWithRequirements(requirements: Requirements, shape: any
       if (!data) {
         return undefined;
       } else {
-        set(eventualShape, field, data)
+        if (Array.isArray(data)) {
+          const [parent, child] = field.split('.');
+          // TODO: has to go deeper than 2 levlels
+          data.forEach((x, i) => set(eventualShape, child ? `${parent}[${i}].${child}` : `${parent}[${i}]`, x))
+        } else {
+          set(eventualShape, field, data)
+        }
       }
     }
 
     return eventualShape;
-  } else {
-    // Traverse to find type?
   }
+
+  throw new Error('Wrong fragment shape');
 }
 
 function getInformation(field: SelectionNode, parent?: string): string[] | string {

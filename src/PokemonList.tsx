@@ -5,7 +5,7 @@ import { PokemonsDocument } from './__generated__/graphql';
 
 export const POKEMONS_QUERY = gql`
   query Pokemons {
-    pokemons(limit: 10) {
+    pokemons(limit: 1) {
       id
       __typename
       ...PokemonFields

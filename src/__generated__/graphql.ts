@@ -104,11 +104,14 @@ export type QueryPokemonArgs = {
 
 export type PokemonFieldsFragment = (
   { __typename?: 'Pokemon' }
-  & Pick<Pokemon, 'name' | 'classification' | 'maxHP' | 'maxCP'>
+  & Pick<Pokemon, 'name' | 'classification' | 'maxHP' | 'maxCP' | 'types'>
   & { weight?: Maybe<(
     { __typename?: 'PokemonDimension' }
     & Pick<PokemonDimension, 'minimum' | 'maximum'>
-  )> }
+  )>, evolutions?: Maybe<Array<Maybe<(
+    { __typename?: 'Pokemon' }
+    & Pick<Pokemon, 'id' | 'name'>
+  )>>> }
 );
 
 export type PokemonsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -129,15 +132,20 @@ export const PokemonFieldsFragmentDoc = gql`
   classification
   maxHP
   maxCP
+  types
   weight {
     minimum
     maximum
+  }
+  evolutions {
+    id
+    name
   }
 }
     ` as unknown as DocumentNode<PokemonFieldsFragment, unknown>;
 export const PokemonsDocument = gql`
     query Pokemons {
-  pokemons(limit: 10) {
+  pokemons(limit: 1) {
     id
     __typename
     ...PokemonFields
