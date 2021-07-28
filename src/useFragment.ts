@@ -2,68 +2,31 @@ import { DocumentNode, FragmentDefinitionNode, Kind, SelectionNode } from 'graph
 import React from 'react';
 import { TypedDocumentNode, useClient } from 'urql';
 
-export function set(source: any | Array<any>, key: string, value: any): any {
-  return setHelper(
-    source,
-    value,
-    key.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.'),
-    0
-  );
+const getNestedData = (source: any, keys: string[], data: any) => {
+  const firstElement = keys.shift();
+  console.log('firstEelement', firstElement, source, data)
+  if (!keys.length) {
+    return data[firstElement] = source ? source[firstElement] : source;
+  }
+
+  const d = source[firstElement];
+  if (Array.isArray(d)) {
+    if (!data[firstElement]) data[firstElement] = [];
+    return d.forEach((_, i) => getNestedData(d, [i, ...keys], data[firstElement]));
+  } else {
+    if (!data[firstElement]) data[firstElement] = {};
+    return getNestedData(source[firstElement], keys, data[firstElement]);
+  }
 }
 
-function setHelper(
-  source: any | Array<any>,
-  value: any,
-  pathArray: Array<string>,
-  currentIndex: number
-): any {
-  if (currentIndex >= pathArray.length) return value;
-
-  // At this point we could be dealing with a FieldArray
-  // so be cautious not to use Stringed keys, if not it's an object.
-  const continuedPath: any = setHelper(
-    source && source[pathArray[currentIndex]],
-    value,
-    pathArray,
-    currentIndex + 1
-  );
-
-  if (!source) {
-    if (isNaN(pathArray[currentIndex])) {
-      return { [pathArray[currentIndex]]: continuedPath };
-    }
-
-    const result: any[] = [];
-    result[pathArray[currentIndex]] = continuedPath;
-    return result;
-  }
-
-  if (Array.isArray(source)) {
-    source[pathArray[currentIndex]] = continuedPath;
-    return source;
-  }
-
-  return Object.assign(source, {
-    [pathArray[currentIndex]]: continuedPath,
+const getData = (source: any, keys: string[]): any => {
+  const data = {};
+  keys.forEach((key) => {
+    getNestedData(source, key.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.'), data)
   });
+
+  return data;
 }
-
-function get(source: any, key: string): any {
-  let path = key.replace(/\[("|')?([^\[\]]+)\1\]/g, '.$2').split('.'),
-    index = 0;
-
-  while (source && path.length > index) {
-    if (Array.isArray(source)) {
-      source = source.map(s => s[path[index]]);
-      index++;
-    } else {
-      source = source[path[index++]];
-    }
-  }
-
-  return source;
-}
-
 
 type Requirements = {
   root: string;
@@ -74,23 +37,7 @@ const FragmentToRequirementsCache = new WeakMap<DocumentNode, Requirements>();
 
 function consolidateShapeWithRequirements(requirements: Requirements, shape: any) {
   if (shape.__typename === requirements.root) {
-    const eventualShape = {};
-    for (const field of requirements.fields) {
-      const data = get(shape, field);
-      if (!data) {
-        return undefined;
-      } else {
-        if (Array.isArray(data)) {
-          const [parent, child] = field.split('.');
-          // TODO: has to go deeper than 2 levlels
-          data.forEach((x, i) => set(eventualShape, child ? `${parent}[${i}].${child}` : `${parent}[${i}]`, x))
-        } else {
-          set(eventualShape, field, data)
-        }
-      }
-    }
-
-    return eventualShape;
+    return getData(shape, requirements.fields);
   }
 
   throw new Error('Wrong fragment shape');

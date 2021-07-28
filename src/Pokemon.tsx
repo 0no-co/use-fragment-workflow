@@ -14,7 +14,7 @@ export const POKEMON_FRAGMENT = gql`
       minimum
       maximum
     }
-    evolutions { id name }
+    evolutions { id name evolutions { id name } }
   }
 `;
 
@@ -29,7 +29,7 @@ export const Pokemon = (props: { pokemon: PokemonType }) => {
       <span>Weight: {data.weight?.minimum} - {data.weight?.maximum}</span>
       {data.evolutions &&
         <ul>
-          {data.evolutions.map(x => <li key={x.id}>{x.name}</li>)}
+          {data.evolutions.map(x => x && <li key={x.id}>{x.name}</li>)}
         </ul>
       }
     </li>

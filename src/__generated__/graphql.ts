@@ -111,6 +111,10 @@ export type PokemonFieldsFragment = (
   )>, evolutions?: Maybe<Array<Maybe<(
     { __typename?: 'Pokemon' }
     & Pick<Pokemon, 'id' | 'name'>
+    & { evolutions?: Maybe<Array<Maybe<(
+      { __typename?: 'Pokemon' }
+      & Pick<Pokemon, 'id' | 'name'>
+    )>>> }
   )>>> }
 );
 
@@ -140,6 +144,10 @@ export const PokemonFieldsFragmentDoc = gql`
   evolutions {
     id
     name
+    evolutions {
+      id
+      name
+    }
   }
 }
     ` as unknown as DocumentNode<PokemonFieldsFragment, unknown>;
