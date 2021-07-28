@@ -10,3 +10,4 @@ generates:
       - "typed-document-node"
     config:
       documentMode: graphQLTag
+      gqlImport: urql#gql

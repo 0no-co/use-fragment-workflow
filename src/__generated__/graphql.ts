@@ -1,5 +1,5 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-import gql from 'graphql-tag';
+import { gql } from 'urql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
