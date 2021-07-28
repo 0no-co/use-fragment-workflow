@@ -1,0 +1,12 @@
+
+overwrite: true
+schema: "https://trygql.formidable.dev/graphql/basic-pokedex"
+generates:
+  src/__generated__/graphql.ts:
+    documents: "./**/*.tsx"
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typed-document-node"
+    config:
+      documentMode: graphQLTag
