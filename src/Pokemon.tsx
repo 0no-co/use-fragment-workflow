@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { gql } from 'urql';
-import { useFragment } from './useFragment';
-import { Pokemon as PokemonType, PokemonFieldsFragmentDoc} from './__generated__/graphql'
+import { gql, DocumentType } from 'urql';
+import { PokemonFieldsFragmentDoc } from './__generated__/fragments/graphql'
 
 export const POKEMON_FRAGMENT = gql`
   fragment PokemonFields on Pokemon {
@@ -18,9 +17,8 @@ export const POKEMON_FRAGMENT = gql`
   }
 `;
 
-export const Pokemon = (props: { pokemon: PokemonType }) => {
-  const data = useFragment(PokemonFieldsFragmentDoc, props.pokemon);
-  console.log(data);
+export const Pokemon = (props: { pokemon: DocumentType<typeof PokemonFieldsFragmentDoc>; }) => {
+  const data = props.pokemon
   return (
     <li style={{ display: 'flex', flexDirection: 'column', marginBottom: 4 }}>
       <h1>{data.name} - {data.classification}</h1>

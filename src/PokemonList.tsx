@@ -1,7 +1,7 @@
 import React from 'react';
 import { gql, useQuery } from 'urql';
 import { Pokemon, POKEMON_FRAGMENT } from './Pokemon';
-import { PokemonsDocument } from './__generated__/graphql';
+import { PokemonsDocument } from './__generated__/fragments/graphql';
 
 export const POKEMONS_QUERY = gql`
   query Pokemons {

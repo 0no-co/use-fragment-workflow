@@ -1,13 +1,8 @@
-
 overwrite: true
 schema: "https://trygql.formidable.dev/graphql/basic-pokedex"
 generates:
-  src/__generated__/graphql.ts:
+  src/__generated__/fragments:
     documents: "./**/*.tsx"
-    plugins:
-      - "typescript"
-      - "typescript-operations"
-      - "typed-document-node"
-    config:
-      documentMode: graphQLTag
-      gqlImport: urql#gql
+    preset: gql-tag-operations-preset
+    presetConfig:
+      augmentedModuleName: 'urql'
