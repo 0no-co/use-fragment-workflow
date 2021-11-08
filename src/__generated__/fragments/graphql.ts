@@ -16,9 +16,9 @@ export type Scalars = {
 /** Move a Pokémon can perform with the associated damage and type. */
 export type Attack = {
   __typename?: 'Attack';
+  damage?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   type?: Maybe<PokemonType>;
-  damage?: Maybe<Scalars['Int']>;
 };
 
 export type AttacksConnection = {
@@ -36,70 +36,70 @@ export type EvolutionRequirement = {
 
 export type Pokemon = {
   __typename?: 'Pokemon';
-  id: Scalars['ID'];
-  name: Scalars['String'];
-  classification?: Maybe<Scalars['String']>;
-  types?: Maybe<Array<Maybe<PokemonType>>>;
-  resistant?: Maybe<Array<Maybe<PokemonType>>>;
-  weaknesses?: Maybe<Array<Maybe<PokemonType>>>;
-  evolutionRequirements?: Maybe<Array<Maybe<EvolutionRequirement>>>;
-  weight?: Maybe<PokemonDimension>;
-  height?: Maybe<PokemonDimension>;
   attacks?: Maybe<AttacksConnection>;
+  classification?: Maybe<Scalars['String']>;
+  evolutionRequirements?: Maybe<Array<Maybe<EvolutionRequirement>>>;
+  evolutions?: Maybe<Array<Maybe<Pokemon>>>;
   /** Likelihood of an attempt to catch a Pokémon to fail. */
   fleeRate?: Maybe<Scalars['Float']>;
+  height?: Maybe<PokemonDimension>;
+  id: Scalars['ID'];
   /** Maximum combat power a Pokémon may achieve at max level. */
   maxCP?: Maybe<Scalars['Int']>;
   /** Maximum health points a Pokémon may achieve at max level. */
   maxHP?: Maybe<Scalars['Int']>;
-  evolutions?: Maybe<Array<Maybe<Pokemon>>>;
+  name: Scalars['String'];
+  resistant?: Maybe<Array<Maybe<PokemonType>>>;
+  types?: Maybe<Array<Maybe<PokemonType>>>;
+  weaknesses?: Maybe<Array<Maybe<PokemonType>>>;
+  weight?: Maybe<PokemonDimension>;
 };
 
 export type PokemonDimension = {
   __typename?: 'PokemonDimension';
-  minimum?: Maybe<Scalars['String']>;
   maximum?: Maybe<Scalars['String']>;
+  minimum?: Maybe<Scalars['String']>;
 };
 
 /** Elemental property associated with either a Pokémon or one of their moves. */
 export enum PokemonType {
-  Grass = 'Grass',
-  Poison = 'Poison',
-  Fire = 'Fire',
-  Flying = 'Flying',
-  Water = 'Water',
   Bug = 'Bug',
-  Normal = 'Normal',
+  Dark = 'Dark',
+  Dragon = 'Dragon',
   Electric = 'Electric',
-  Ground = 'Ground',
   Fairy = 'Fairy',
   Fighting = 'Fighting',
+  Fire = 'Fire',
+  Flying = 'Flying',
+  Ghost = 'Ghost',
+  Grass = 'Grass',
+  Ground = 'Ground',
+  Ice = 'Ice',
+  Normal = 'Normal',
+  Poison = 'Poison',
   Psychic = 'Psychic',
   Rock = 'Rock',
   Steel = 'Steel',
-  Ice = 'Ice',
-  Ghost = 'Ghost',
-  Dragon = 'Dragon',
-  Dark = 'Dark'
+  Water = 'Water'
 }
 
 export type Query = {
   __typename?: 'Query';
-  /** List out all Pokémon, optionally in pages */
-  pokemons?: Maybe<Array<Maybe<Pokemon>>>;
   /** Get a single Pokémon by its ID, a three character long identifier padded with zeroes */
   pokemon?: Maybe<Pokemon>;
+  /** List out all Pokémon, optionally in pages */
+  pokemons?: Maybe<Array<Maybe<Pokemon>>>;
+};
+
+
+export type QueryPokemonArgs = {
+  id: Scalars['ID'];
 };
 
 
 export type QueryPokemonsArgs = {
   limit?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
-};
-
-
-export type QueryPokemonArgs = {
-  id: Scalars['ID'];
 };
 
 export type PokemonFieldsFragment = { __typename?: 'Pokemon', name: string, classification?: string | null | undefined, maxHP?: number | null | undefined, maxCP?: number | null | undefined, types?: Array<PokemonType | null | undefined> | null | undefined, weight?: { __typename?: 'PokemonDimension', minimum?: string | null | undefined, maximum?: string | null | undefined } | null | undefined, evolutions?: Array<{ __typename?: 'Pokemon', id: string, name: string, evolutions?: Array<{ __typename?: 'Pokemon', id: string, name: string } | null | undefined> | null | undefined } | null | undefined> | null | undefined };

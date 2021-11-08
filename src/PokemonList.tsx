@@ -1,9 +1,8 @@
 import React from 'react';
-import { gql, useQuery } from 'urql';
+import { useQuery, gql } from 'urql';
 import { Pokemon, POKEMON_FRAGMENT } from './Pokemon';
-import { PokemonsDocument } from './__generated__/fragments/graphql';
 
-export const POKEMONS_QUERY = gql`
+export const POKEMONS_QUERY = gql(/* GraphQL */`
   query Pokemons {
     pokemons(limit: 1) {
       id
@@ -13,10 +12,10 @@ export const POKEMONS_QUERY = gql`
   }
 
   ${POKEMON_FRAGMENT}
-`;
+`);
 
 const PokemonList = () => {
-  const [result] = useQuery({ query: PokemonsDocument });
+  const [result] = useQuery({ query: POKEMONS_QUERY });
 
   const { data, fetching, error } = result;
 
