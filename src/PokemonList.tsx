@@ -1,9 +1,8 @@
 import React from 'react';
 import { gql, useQuery } from 'urql';
 import { Pokemon, POKEMON_FRAGMENT } from './Pokemon';
-import { PokemonsDocument } from './__generated__/graphql';
 
-export const POKEMONS_QUERY = gql`
+const PokemonsDocument = gql`
   query Pokemons {
     pokemons(limit: 1) {
       id
@@ -13,11 +12,11 @@ export const POKEMONS_QUERY = gql`
   }
 
   ${POKEMON_FRAGMENT}
-`;
+` as typeof import('./PokemonList.generated').PokemonsDocument
+
 
 const PokemonList = () => {
   const [result] = useQuery({ query: PokemonsDocument });
-
   const { data, fetching, error } = result;
 
   return (

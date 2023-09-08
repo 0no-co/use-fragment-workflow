@@ -4,7 +4,6 @@ import { TypedDocumentNode, useClient } from 'urql';
 
 const getNestedData = (source: any, keys: string[], data: any) => {
   const firstElement = keys.shift();
-  console.log('firstEelement', firstElement, source, data)
   if (!keys.length) {
     return data[firstElement] = source ? source[firstElement] : source;
   }
@@ -83,6 +82,8 @@ export function useFragment<Data = any>(fragmentDoc: DocumentNode | TypedDocumen
   }, [fragmentDoc]);
 
   const dataOrSource = React.useMemo(() => {
+    console.log(client)
+
     if (shape) {
       const result = consolidateShapeWithRequirements(requirements, shape);
       if (result) return result;
