@@ -20,8 +20,8 @@ dependencies:
 
 devDependencies:
   '@0no-co/graphqlsp':
-    specifier: ^0.9.2
-    version: 0.9.2(graphql@16.6.0)
+    specifier: ^0.10.0
+    version: 0.10.0(graphql@16.6.0)
   '@graphql-typed-document-node/core':
     specifier: ^3.2.0
     version: 3.2.0(graphql@16.6.0)
@@ -53,8 +53,8 @@ packages:
     dependencies:
       graphql: 16.6.0
 
-  /@0no-co/graphqlsp@0.9.2(graphql@16.6.0):
-    resolution: {integrity: sha512-qhhFTf2UKKhGqBRvzKG6yvmnb6WaIwjPb2gCokrm3aJVVoGy61leq5x/tK0AahIWmYzmo9JIxw3pS73KN3XCzg==}
+  /@0no-co/graphqlsp@0.10.0(graphql@16.6.0):
+    resolution: {integrity: sha512-K1Za2Y3Hh2tSNOqSE8zdu8ks34fyhFEtydt61c47KlQKgbsuc9jm4Pr8PIwmOJ3ADUXpOraLeA/rJ/rtauJ9ow==}
     dependencies:
       '@graphql-codegen/add': 5.0.0(graphql@16.6.0)
       '@graphql-codegen/core': 4.0.0(graphql@16.6.0)

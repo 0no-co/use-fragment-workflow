@@ -14,7 +14,6 @@ const PokemonsDocument = gql`
   ${POKEMON_FRAGMENT}
 ` as typeof import('./PokemonList.generated').PokemonsDocument
 
-
 const PokemonList = () => {
   const [result] = useQuery({ query: PokemonsDocument });
   const { data, fetching, error } = result;
